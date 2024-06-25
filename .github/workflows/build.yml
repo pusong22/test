@@ -1,0 +1,39 @@
+name: test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: windows-2019
+
+    env:
+      CUDNN_VERSION: 9.2.0.82
+      CUDNN_PATH: "C:\\Program Files\\NVIDIA\\CUDNN"
+      
+    steps:
+      - name: Cache cuDNN
+        uses: actions/cache@v4
+        id: cache-cudnn
+        with:
+          path: "C:\\CUDNN_PACKAGE"
+          key: cudnn-v9.2.0.82
+          restore-keys: |
+            cudnn-
+      
+      - name: Download cuDNN
+        if: steps.cache-cudnn.outputs.cache-hit != 'true'
+        run: |
+          Invoke-WebRequest -Uri "https://developer.download.nvidia.com/compute/cudnn/redist/cudnn/windows-x86_64/cudnn-windows-x86_64-${{ env.CUDNN_VERSION }}_cuda11-archive.zip" -OutFile "cudnn.zip"
+          Expand-Archive -Path "cudnn.zip" -DestinationPath "C:\\CUDNN_PACKAGE"
+        shell: pwsh
+  
+      - name: Install cuDNN
+        run: |
+          Copy-Item -Recurse -Path "C:\\CUDNN_PACKAGE" -Destination "${{ env.CUDNN_PATH }}\\v${{ env.CUDNN_VERSION }}"
+        shell: pwsh
