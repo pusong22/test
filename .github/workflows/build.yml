@@ -37,3 +37,24 @@ jobs:
         run: |
           Copy-Item -Recurse -Path "C:\\CUDNN_PACKAGE" -Destination "${{ env.CUDNN_PATH }}\\v${{ env.CUDNN_VERSION }}"
         shell: pwsh
+      
+      - name: Cache libtorch
+        uses: actions/cache@v4
+        id: cache-libtorch
+        with:
+          path: "C:\\TORCH_PACKAGE"
+          key: libtorch-2.3.1-cu118
+          restore-keys: |
+            libtorch-
+    
+      - name: Download libtorch
+        if: steps.cache-libtorch.outputs.cache-hit != 'true'
+        run: |
+          Invoke-WebRequest -Uri "https://download.pytorch.org/libtorch/cu118/libtorch-win-shared-with-deps-debug-2.3.1%2Bcu118.zip" -OutFile "libtorch.zip"
+          Expand-Archive -Path "libtorch.zip" -DestinationPath "C:\\TORCH_PACKAGE"
+        shell: pwsh
+  
+      - name: Extract libtorch
+        run: |
+          Copy-Item -Recurse -Path "C:\\TORCH_PACKAGE" -Destination ${{ env.TORCH_INSTALL_PREFIX }}
+        shell: pwsh
