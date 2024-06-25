@@ -18,44 +18,62 @@ jobs:
       TORCH_INSTALL_PREFIX: "C:\\libtorch"
       
     steps:
-      - name: Cache cuDNN
-        uses: actions/cache@v4
-        id: cache-cudnn
-        with:
-          path: C:\\CUDNN_PACKAGE
-          key: cudnn-v9.2.0.82
-          restore-keys: |
-            cudnn-
+      -name: Test GITHUB_ENV
+        run: |
+          echo "TEST_VAR=123" >> $GITHUB_ENV
+          echo "$env:TEST_VAR  :  ${{ env.TEST_VAR}}"
       
-      - name: Download cuDNN
-        if: steps.cache-cudnn.outputs.cache-hit != 'true'
+      -name: Test GITHUB_ENV
         run: |
-          Invoke-WebRequest -Uri "https://developer.download.nvidia.com/compute/cudnn/redist/cudnn/windows-x86_64/cudnn-windows-x86_64-${{ env.CUDNN_VERSION }}_cuda11-archive.zip" -OutFile "cudnn.zip"
-          Expand-Archive -Path "cudnn.zip" -DestinationPath "C:\\CUDNN_PACKAGE"
-        shell: pwsh
-  
-      - name: Install cuDNN
-        run: |
-          Copy-Item -Recurse -Path "C:\\CUDNN_PACKAGE" -Destination "${{ env.CUDNN_PATH }}\\v${{ env.CUDNN_VERSION }}"
-        shell: pwsh
+          echo "TEST_VAR=123" >> ${{github.env}}
+          echo "$env:TEST_VAR  :  ${{ env.TEST_VAR}}"
       
-      - name: Cache libtorch
-        uses: actions/cache@v4
-        id: cache-libtorch
-        with:
-          path: "C:\\TORCH_PACKAGE"
-          key: libtorch-2.3.1-cu118
-          restore-keys: |
-            libtorch-
-    
-      - name: Download libtorch
-        if: steps.cache-libtorch.outputs.cache-hit != 'true'
+      -name: Test GITHUB_ENV
         run: |
-          Invoke-WebRequest -Uri "https://download.pytorch.org/libtorch/cu118/libtorch-win-shared-with-deps-debug-2.3.1%2Bcu118.zip" -OutFile "libtorch.zip"
-          Expand-Archive -Path "libtorch.zip" -DestinationPath "C:\\TORCH_PACKAGE"
-        shell: pwsh
-  
-      - name: Extract libtorch
-        run: |
-          Copy-Item -Recurse -Path "C:\\TORCH_PACKAGE" -Destination ${{ env.TORCH_INSTALL_PREFIX }}
-        shell: pwsh
+          echo "TEST_VAR=123" >> $github:env
+          echo "$env:TEST_VAR  :  ${{ env.TEST_VAR}}"
+
+      -name: Test GITHUB_ENV
+        run: env
+      
+      #- name: Cache cuDNN
+      #  uses: actions/cache@v4
+      #  id: cache-cudnn
+      #  with:
+      #    path: C:\\CUDNN_PACKAGE
+      #    key: cudnn-v9.2.0.82
+      #    restore-keys: |
+      #      cudnn-
+      #
+      #- name: Download cuDNN
+      #  if: steps.cache-cudnn.outputs.cache-hit != 'true'
+      #  run: |
+      #    Invoke-WebRequest -Uri "https://developer.download.nvidia.com/compute/cudnn/redist/cudnn/windows-x86_64/cudnn-windows-x86_64-${{ env.CUDNN_VERSION }}_cuda11-archive.zip" -OutFile "cudnn.zip"
+      #    Expand-Archive -Path "cudnn.zip" -DestinationPath "C:\\CUDNN_PACKAGE"
+      #  shell: pwsh
+  #
+      #- name: Install cuDNN
+      #  run: |
+      #    Copy-Item -Recurse -Path "C:\\CUDNN_PACKAGE" -Destination "${{ env.CUDNN_PATH }}\\v${{ env.CUDNN_VERSION }}"
+      #  shell: pwsh
+      #
+      #- name: Cache libtorch
+      #  uses: actions/cache@v4
+      #  id: cache-libtorch
+      #  with:
+      #    path: "C:\\TORCH_PACKAGE"
+      #    key: libtorch-2.3.1-cu118
+      #    restore-keys: |
+      #      libtorch-
+    #
+      #- name: Download libtorch
+      #  if: steps.cache-libtorch.outputs.cache-hit != 'true'
+      #  run: |
+      #    Invoke-WebRequest -Uri "https://download.pytorch.org/libtorch/cu118/libtorch-win-shared-with-deps-debug-2.3.1%2Bcu118.zip" -OutFile "libtorch.zip"
+      #    Expand-Archive -Path "libtorch.zip" -DestinationPath "C:\\TORCH_PACKAGE"
+      #  shell: pwsh
+  #
+      #- name: Extract libtorch
+      #  run: |
+      #    Copy-Item -Recurse -Path "C:\\TORCH_PACKAGE" -Destination ${{ env.TORCH_INSTALL_PREFIX }}
+      #  shell: pwsh
