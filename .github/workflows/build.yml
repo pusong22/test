@@ -18,20 +18,20 @@ jobs:
       TORCH_INSTALL_PREFIX: "C:\\libtorch"
       
     steps:
-      - name: Test GITHUB_ENV
-        run: |
-          echo "TEST_VAR=123" >> $GITHUB_ENV
-          echo "$env:TEST_VAR  :  ${{ env.TEST_VAR}}"
+      #- name: Test GITHUB_ENV
+      #  run: |
+      #    echo "TEST_VAR=123" >> $GITHUB_ENV
+      #    echo "$env:TEST_VAR  :  ${{ env.TEST_VAR}}"
       
       - name: Test GITHUB_ENV
         run: |
           echo "TEST_VAR=123" >> ${{github.env}}
           echo "$env:TEST_VAR  :  ${{ env.TEST_VAR}}"
       
-      - name: Test GITHUB_ENV
-        run: |
-          echo "TEST_VAR=123" >> $github:env
-          echo "$env:TEST_VAR  :  ${{ env.TEST_VAR}}"
+   #- name: Test GITHUB_ENV
+   #  run: |
+   #    echo "TEST_VAR=123" >> $github:env
+   #    echo "$env:TEST_VAR  :  ${{ env.TEST_VAR}}"
 
       - name: Test GITHUB_ENV
         run: env
