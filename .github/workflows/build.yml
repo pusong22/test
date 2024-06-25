@@ -23,7 +23,6 @@ jobs:
       #    echo "TEST_VAR=123" >> $GITHUB_ENV
       #    echo "$env:TEST_VAR  :  ${{ env.TEST_VAR}}"
       
-      #The step that creates or updates the environment variable does not have access to the new value, but all subsequent steps in a job will have access.
       #- name: Test GITHUB_ENV
       #  run: |
       #    echo "TEST_VAR=123" >> ${{github.env}}
@@ -37,14 +36,19 @@ jobs:
       #- name: Test GITHUB_ENV
       #  run: env
 
-      - name: Test GITHUB_ENV
-        run: echo $github:env
+      #- name: Test GITHUB_ENV
+      #  run: echo $github:env
 
+      #The step that creates or updates the environment variable does not have access to the new value, but all subsequent steps in a job will have access.
+      #不同的bash不同的变量方式
       - name: Test GITHUB_ENV
         run: echo ${{ github.env }}
 
       - name: Test GITHUB_ENV
         run: echo $env:GITHUB_ENV
+
+      - name: Test GITHUB_PATH
+        run: echo $env:GITHUB_PATH
       
       #- name: Cache cuDNN
       #  uses: actions/cache@v4
