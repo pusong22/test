@@ -13,15 +13,16 @@ jobs:
     runs-on: windows-2019
 
     env:
-      CUDNN_VERSION: 9.2.0.82
+      CUDNN_VERSION: "9.2.0.82"
       CUDNN_PATH: "C:\\Program Files\\NVIDIA\\CUDNN"
+      TORCH_INSTALL_PREFIX: "C:\\libtorch"
       
     steps:
       - name: Cache cuDNN
         uses: actions/cache@v4
         id: cache-cudnn
         with:
-          path: "C:\\CUDNN_PACKAGE"
+          path: C:\\CUDNN_PACKAGE
           key: cudnn-v9.2.0.82
           restore-keys: |
             cudnn-
