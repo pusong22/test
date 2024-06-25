@@ -24,21 +24,27 @@ jobs:
       #    echo "$env:TEST_VAR  :  ${{ env.TEST_VAR}}"
       
       #The step that creates or updates the environment variable does not have access to the new value, but all subsequent steps in a job will have access.
-      - name: Test GITHUB_ENV
-        run: |
-          echo "TEST_VAR=123" >> ${{github.env}}
-          echo "$env:TEST_VAR  :  ${{ env.TEST_VAR}}"
+      #- name: Test GITHUB_ENV
+      #  run: |
+      #    echo "TEST_VAR=123" >> ${{github.env}}
+      #    echo "$env:TEST_VAR  :  ${{ env.TEST_VAR}}"
       
    #- name: Test GITHUB_ENV
    #  run: |
    #    echo "TEST_VAR=123" >> $github:env
    #    echo "$env:TEST_VAR  :  ${{ env.TEST_VAR}}"
 
-      - name: Test GITHUB_ENV
-        run: env
+      #- name: Test GITHUB_ENV
+      #  run: env
 
       - name: Test GITHUB_ENV
-        run: echo $github:GITHUB_ENV
+        run: echo $github:env
+
+      - name: Test GITHUB_ENV
+        run: echo ${{ github.env }}
+
+      - name: Test GITHUB_ENV
+        run: echo $env:GITHUB_ENV
       
       #- name: Cache cuDNN
       #  uses: actions/cache@v4
