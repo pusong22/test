@@ -50,10 +50,10 @@ jobs:
       #- name: Test GITHUB_PATH
         #run: echo $env:GITHUB_PATH
       - name: Test GITHUB_PATH
-        run: echo "11111111111111111" >> $env:GITHUB_PATH
+        run: echo "11111111111111111" >> ${{ github.path }}
      
       - name: Test GITHUB_PATH
-        run: echo $env:GITHUB_PATH
+        run: echo ${{ github.path }}
       #- name: Cache cuDNN
       #  uses: actions/cache@v4
       #  id: cache-cudnn
