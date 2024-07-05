@@ -9,6 +9,12 @@ on:
       - main
 
 jobs:
+  test:
+    runs-on: windows-2019
+    steps:
+     - name: echo name
+       run: echo  "name"
+       
   build:
     runs-on: windows-2019
 
